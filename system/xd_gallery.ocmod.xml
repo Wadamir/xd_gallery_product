@@ -1,0 +1,286 @@
+<modification>
+    <name>XD Gallery for ocStore 3.x</name>
+	<code>xd-gallery-oc3</code>
+    <version>3.0</version>
+    <author><![CDATA[<span style="color:#0066cc"><b>XDomus.ru</b></span>]]></author>
+    <link>https://xdomus.ru</link>
+    
+    <file path="admin/controller/common/column_left.php">
+        <operation error="skip">
+            <search><![CDATA[
+            $marketplace = array();
+            ]]></search>
+            <add position="before"><![CDATA[
+            if ($this->config->get('module_xd_gallery_manager_status')==1) {
+            $gallery = array();
+            if ($this->user->hasPermission('access', 'extension/module/xd_gallery_manager')) {
+                $gallery[] = array(
+                    'name'     => 'Обзор',
+                    'href'     => $this->url->link('extension/module/xd_gallery_manager', 'user_token=' . $this->session->data['user_token'], true),
+                    'children' => array()   
+                );
+            }
+            if ($this->user->hasPermission('access', 'xd_gallery/album')) {
+                $gallery[] = array(
+                    'name'     => 'Фотоальбомы',
+                    'href'     => $this->url->link('xd_gallery/album', 'user_token=' . $this->session->data['user_token'], true),
+                    'children' => array()   
+                );
+            }
+            if ($this->user->hasPermission('access', 'xd_gallery/video')) {
+                $gallery[] = array(
+                    'name'     => 'Видео',
+                    'href'     => $this->url->link('xd_gallery/video', 'user_token=' . $this->session->data['user_token'], true),
+                    'children' => array()   
+                );
+            }
+            if ($this->user->hasPermission('access', 'xd_gallery/setting')) {
+                $gallery[] = array(
+                    'name'     => 'Настройки',
+                    'href'     => $this->url->link('xd_gallery/setting', 'user_token=' . $this->session->data['user_token'], true),
+                    'children' => array()   
+                );
+            }
+            if ($gallery) {
+                $data['menus'][] = array(
+                    'id'       => 'menu-gallery',
+                    'icon'     => 'fa-image', 
+                    'name'     => 'Галерея',
+                    'href'     => '',
+                    'children' => $gallery
+                );      
+            }
+            }
+            ]]></add>
+        </operation>
+    </file>
+
+	<file path="catalog/controller/startup/seo_url.php">
+        <operation error="log">
+            <search><![CDATA[$url = explode('=', $query->row['query']);]]></search>
+            <add position="after">
+                <![CDATA[
+                    if ($url[0] == 'album_id') {
+                        $this->request->get['album_id'] = $url[1];
+                    }
+                    if ($url[0] == 'video_id') {
+                        $this->request->get['video_id'] = $url[1];
+                    }
+                ]]>
+            </add>
+        </operation>
+        <operation error="log">
+            <search><![CDATA[elseif (isset($this->request->get['information_id']))]]>
+            </search>
+            <add position="before">
+                <![CDATA[} elseif (isset($this->request->get['album_id'])) {
+                $this->request->get['route'] = 'gallery/album';
+            } elseif (isset($this->request->get['video_id'])) {
+                $this->request->get['route'] = 'gallery/video';
+            ]]>
+            </add>
+        </operation>
+        
+        <operation error="log">
+            <search><![CDATA[($data['route'] == 'product/product' && $key == 'product_id') ||]]>
+            </search>
+            <add  position="replace">
+                <![CDATA[($data['route'] == 'product/product' && $key == 'product_id') || ($data['route'] == 'gallery/album' && $key == 'album_id') || ($data['route'] == 'gallery/video' && $key == 'video_id') ||]]>
+            </add>
+        </operation>
+                        
+        <operation error="log">             
+            <search><![CDATA[elseif ($key == 'path')]]></search>
+            <add  position="replace">
+                <![CDATA[elseif ($key == 'path' || $key == 'npath')]]>
+            </add>
+        </operation>
+
+        <operation error="log">             
+            <search><![CDATA[&& $url[0] != 'information_id']]></search>
+            <add  position="replace">
+                <![CDATA[&& $url[0] != 'information_id' && $url[0] != 'video_id' && $url[0] != 'album_id']]>
+            </add>
+        </operation>
+        
+    </file>
+
+    <file path="catalog/controller/{extension,startup}/seo_pro.php">
+        <operation>
+            <search><![CDATA[$url = explode('=', $queries[$part], 2);]]></search>
+            <add position="after">
+                <![CDATA[
+                    if ($url[0] == 'album_id') {
+                        $this->request->get['album_id'] = $url[1];
+                    }
+                    if ($url[0] == 'video_id') {
+                        $this->request->get['video_id'] = $url[1];
+                    }
+                ]]>
+            </add>
+        </operation>
+        <operation>
+            <search><![CDATA[} elseif (isset($this->request->get['information_id'])) {]]>
+            </search>
+            <add position="before">
+                <![CDATA[
+                    } elseif (isset($this->request->get['album_id'])) {
+                        $this->request->get['route'] = 'gallery/album';
+                    } elseif (isset($this->request->get['video_id'])) {
+                        $this->request->get['route'] = 'gallery/video';
+                ]]>
+            </add>
+        </operation>
+        
+        <operation>
+            <search><![CDATA[case 'information_id':]]></search>
+            <add  position="after">
+                <![CDATA[
+                    case 'album_id': 
+                    case 'video_id': 
+                ]]>
+            </add>
+        </operation>
+    </file>
+
+    <file path="catalog/controller/common/menu.php">
+        <operation>
+            <search><![CDATA[return $this->load->view('common/menu', $data);]]></search>
+            <add position="before">
+                <![CDATA[
+                if ($this->config->get('og_album_menu')) {
+                    $data['categories'][] = array(
+                        'name'     => $this->config->get('og_album_title'),
+                        'children' => '',
+                        'column'   => 1,
+                        'href'     => $this->url->link('gallery/album', '', true)
+                    );
+                }
+                if ($this->config->get('og_video_menu')) {
+                    $data['categories'][] = array(
+                        'name'     => $this->config->get('og_video_title'),
+                        'children' => '',
+                        'column'   => 1,
+                        'href'     => $this->url->link('gallery/video', '', true)
+                    );
+                }
+                ]]>
+            </add>
+        </operation>
+    </file>
+
+    <file path="catalog/controller/extension/feed/{google_sitemap,yandex_sitemap}.php">
+        <operation>
+            <search><![CDATA[$output .= '</urlset>';]]></search>
+            <add position="before"><![CDATA[
+            if ($this->config->get('og_sitemap')){
+                $output .= '<url>';
+                $output .= '<loc>' . $this->url->link('gallery/album', '', true) . '</loc>';
+                $output .= '<changefreq>weekly</changefreq>';
+                $output .= '<priority>0.7</priority>';
+                $output .= '</url>';
+                $this->load->model('gallery/album');
+                $albums = $this->model_gallery_album->getAlbums(array());
+                if ($albums){
+                    foreach ($albums as $album) {
+                        $output .= '<url>';
+                        $output .= '<loc>' . $this->url->link('gallery/album', 'album_id=' . $album['album_id'], true) . '</loc>';
+                        $output .= '<changefreq>weekly</changefreq>';
+                        $output .= '<priority>0.5</priority>';
+                        $output .= '</url>';
+                    }
+                }
+                $output .= '<url>';
+                $output .= '<loc>' . $this->url->link('gallery/video', '', true) . '</loc>';
+                $output .= '<changefreq>weekly</changefreq>';
+                $output .= '<priority>0.7</priority>';
+                $output .= '</url>';
+                $this->load->model('gallery/video');
+                $videos = $this->model_gallery_video->getVideos(array());
+                if ($videos){
+                    foreach ($videos as $video) {
+                        $output .= '<url>';
+                        $output .= '<loc>' . $this->url->link('gallery/video', 'video_id=' . $video['video_id'], true) . '</loc>';
+                        $output .= '<changefreq>weekly</changefreq>';
+                        $output .= '<priority>0.5</priority>';
+                        $output .= '</url>';
+                    }
+                }
+            }
+            ]]></add>
+        </operation>
+    </file>
+
+    <file path="catalog/controller/information/sitemap.php">
+        <operation>
+            <search><![CDATA[
+            $this->load->model('catalog/information');
+            ]]></search>
+            <add position="before"><![CDATA[
+            if ($this->config->get('og_sitemap')){
+                $this->load->model('gallery/album');
+                $data['albums'] = array();
+                $data['albums'][] = array(
+                    'name'      => 'Фотогалерея',
+                    'href'       => $this->url->link('gallery/album', '' , true)
+                );
+                $albums = $this->model_gallery_album->getAlbums(array());
+                if ($albums){
+                    foreach ($albums as $album) {
+                        $data['albums'][] = array(
+                            'name'      => $album['name'],
+                            'href'       => $this->url->link('gallery/album', 'album_id=' . $album['album_id'], true)
+                        );
+                    }
+                }
+
+                $this->load->model('gallery/video');
+                $data['videos'] = array();
+                $data['videos'][] = array(
+                    'name'      => 'Видеогалерея',
+                    'href'       => $this->url->link('gallery/video', '' , true)
+                );
+                $videos = $this->model_gallery_video->getVideos(array());
+                if ($videos){
+                    foreach ($videos as $video) {
+                        $data['videos'][] = array(
+                            'name'      => $video['name'],
+                            'href'       => $this->url->link('gallery/video', 'video_id=' . $video['video_id'], true)
+                        );
+                    }
+                }
+            }
+            ]]></add>
+        </operation>
+    </file>
+
+    <file path="catalog/view/theme/*/template/information/sitemap.twig">
+        <operation>
+            <search><![CDATA[{{ content_bottom }}]]></search>
+            <add position="replace"><![CDATA[
+            <hr>
+            <div class="row">
+                <div class="col-sm-6">
+                  {% if albums %}
+                  <ul class="list-unstyled">
+                    {% for album in albums %}
+                      <li><a href="{{ album.href }}" >{{ album.name }}</a></li>
+                    {% endfor %}
+                  </ul>
+                {% endif %}
+                </div>
+                <div class="col-sm-6">
+                {% if videos %}
+                  <ul class="list-unstyled">
+                    {% for video in videos %}
+                      <li><a href="{{ video.href }}" >{{ video.name }}</a></li>
+                    {% endfor %}
+                  </ul>
+                {% endif %}
+                </div>
+            </div>
+            {{ content_bottom }}
+            ]]></add>
+        </operation>
+    </file>
+</modification>

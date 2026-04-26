@@ -164,7 +164,7 @@
 
 /system/*
 !/system/
-!/system/xd_flat.ocmod.xml
+!/system/xd_gallery.ocmod.xml
 /system/library/*
 !/system/library/
 !/system/library/multifileupload.php
