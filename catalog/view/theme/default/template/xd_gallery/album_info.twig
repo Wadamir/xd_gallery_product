@@ -100,7 +100,7 @@ $(document).ready(function() {
       paginationClickable: true,
       nextButton: '.xd-gallery-album-info-next',
       prevButton: '.xd-gallery-album-info-prev',
-      autoplay: {{ og_album_carousel_autoplay > 0 ? og_album_carousel_autoplay : false }},
+      autoplay: {{ og_album_carousel_autoplay > 0 ? og_album_carousel_autoplay : 'false' }},
       loop: {{ og_album_carousel_loop ? 'true' : 'false' }}
     });
   }

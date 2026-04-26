@@ -132,12 +132,12 @@ class ControllerExtensionModuleXdGalleryAlbum extends Controller
         $data['as'] = $setting['as'];
 
         $data['og_album_carousel'] = (int)$this->config->get('og_album_carousel');
-        $data['og_album_carousel_xs'] = (int)$this->config->get('og_album_carousel_xs') ?: 1;
-        $data['og_album_carousel_sm'] = (int)$this->config->get('og_album_carousel_sm') ?: 2;
-        $data['og_album_carousel_md'] = (int)$this->config->get('og_album_carousel_md') ?: 4;
-        $data['og_album_carousel_lg'] = (int)$this->config->get('og_album_carousel_lg') ?: 6;
-        $data['og_album_carousel_xl'] = (int)$this->config->get('og_album_carousel_xl') ?: 8;
-        $data['og_album_carousel_xxl'] = (int)$this->config->get('og_album_carousel_xxl') ?: 8;
+        $data['og_album_carousel_xs'] = (int)$this->config->get('og_album_carousel_xs') ?? 1;
+        $data['og_album_carousel_sm'] = (int)$this->config->get('og_album_carousel_sm') ?? 2;
+        $data['og_album_carousel_md'] = (int)$this->config->get('og_album_carousel_md') ?? 4;
+        $data['og_album_carousel_lg'] = (int)$this->config->get('og_album_carousel_lg') ?? 6;
+        $data['og_album_carousel_xl'] = (int)$this->config->get('og_album_carousel_xl') ?? 8;
+        $data['og_album_carousel_xxl'] = (int)$this->config->get('og_album_carousel_xxl') ?? 8;
         $data['og_album_carousel_pagination'] = (int)($this->config->get('og_album_carousel_pagination') ?? 1);
         $data['og_album_carousel_loop'] = (int)($this->config->get('og_album_carousel_loop') ?? 1);
         $data['og_album_carousel_space'] = (int)($this->config->get('og_album_carousel_space') ?? 10);
