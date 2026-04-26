@@ -1,0 +1,126 @@
+{{ header }}
+<style type="text/css">
+  .album-wall .og-album-thumb-frame {
+    width: {{ og_album_detail_frame_width }}px;
+    height: {{ og_album_detail_frame_height }}px;
+  }
+
+  .album-wall .og-album-thumb-frame img {
+    width: {{ og_album_detail_thumb_width }}px;
+    height: {{ og_album_detail_thumb_height }}px;
+    top: {{ og_album_detail_frame_padding }}px;
+    left: {{ og_album_detail_frame_padding }}px;
+  }
+</style>
+<div class="container">
+  <ul class="breadcrumb">
+    {% for breadcrumb in breadcrumbs %}
+      <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+    {% endfor %}
+  </ul>
+  <div class="row">{{ column_left }}
+    {% if column_left  and  column_right %}
+      {% set class = 'col-sm-6' %}
+    {% elseif  column_left  or  column_right %}
+      {% set class = 'col-sm-9' %}
+    {% else %}
+      {% set class = 'col-sm-12' %}
+    {% endif %} 
+    <div id="content" class="{{ class }}">
+      {{ content_top }}
+      
+      <h1 class="album-title" style="font-family: {{ heading_title_font }}; font-size: {{ heading_title_size }}px;">{{ heading_title }}</h1>
+        
+        {% if thumb  or  images %}
+          {% if og_album_carousel %}
+            <div class="og-photo-carousel swiper-viewport">
+              <div id="xd-gallery-album-info-photos" class="swiper-container">
+                <div class="swiper-wrapper">
+                  {% if thumb %}
+                    <div class="swiper-slide text-center">
+                      <a {% if og_album_magnific_popup %}class="popup-pict"{% endif %} href="{{ popup }}" title="{{ heading_title }}"><img src="{{ thumb }}" title="{{ heading_title }}" alt="{{ heading_title }}" class="img-responsive og-photo-carousel-image"/></a>
+                    </div>
+                  {% endif %}
+                  {% for image in images %}
+                    <div class="swiper-slide text-center">
+                      <a {% if og_album_magnific_popup %}class="popup-pict"{% endif %} href="{{ image.popup }}" title="{{ image.name }}"><img src="{{ image.thumb }}" title="{{ image.name }}" alt="{{ image.name }}" class="img-responsive og-photo-carousel-image"/></a>
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+              <div class="swiper-pagination xd-gallery-album-info-pagination"></div>
+              <div class="swiper-pager">
+                <div class="swiper-button-next xd-gallery-album-info-next"></div>
+                <div class="swiper-button-prev xd-gallery-album-info-prev"></div>
+              </div>
+            </div>
+          {% else %}
+            <div class="album-wall row">
+              {% if thumb %}
+                <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+                  <div class="og-album-thumb-frame">
+                    <a {% if og_album_magnific_popup %}class="popup-pict"{% endif %} href="{{ popup }}" title="{{ heading_title }}"><img src="{{ thumb }}" title="{{ heading_title }}" alt="{{ heading_title }}" /></a>
+                  </div>
+                </div>
+              {% endif %}
+              {% for image in images %}
+                <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+                  <div class="og-album-thumb-frame">
+                    <a {% if og_album_magnific_popup %}class="popup-pict"{% endif %} href="{{ image.popup }}" title="{{ image.name }}"><img src="{{ image.thumb }}" title="{{ image.name }}" alt="{{ image.name }}" /></a>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endif %}
+        
+      <div class="album-description">{{ description }}</div>
+
+      {{ content_bottom }}</div>
+    {{ column_right }}</div>
+</div> 
+<script type="text/javascript"><!--
+$(document).ready(function() {
+  {% if og_album_carousel %}
+  var $el = $('#xd-gallery-album-info-photos');
+  if ($el.length && !$el.data('xd-swiper-initialized')) {
+    $el.data('xd-swiper-initialized', 1);
+    $el.swiper({
+      mode: 'horizontal',
+      slidesPerView: {{ og_album_carousel_xxl }},
+      spaceBetween: {{ og_album_carousel_space }},
+      breakpoints: {
+        1399: { slidesPerView: {{ og_album_carousel_xl }} },
+        1199: { slidesPerView: {{ og_album_carousel_lg }} },
+        991:  { slidesPerView: {{ og_album_carousel_md }} },
+        767:  { slidesPerView: {{ og_album_carousel_sm }} },
+        575:  { slidesPerView: {{ og_album_carousel_xs }} }
+      },
+      pagination: {% if og_album_carousel_pagination %}'.xd-gallery-album-info-pagination'{% else %}false{% endif %},
+      paginationClickable: true,
+      nextButton: '.xd-gallery-album-info-next',
+      prevButton: '.xd-gallery-album-info-prev',
+      autoplay: {{ og_album_carousel_autoplay > 0 ? og_album_carousel_autoplay : false }},
+      loop: {{ og_album_carousel_loop ? 'true' : 'false' }}
+    });
+  }
+  {% if og_album_magnific_popup %}
+  $('.og-photo-carousel .popup-pict').magnificPopup({
+    type: 'image',
+    gallery: { enabled: true }
+  });
+  {% endif %}
+  {% else %}
+  {% if og_album_magnific_popup %}
+  $('.album-wall').magnificPopup({
+    type:'image',
+    delegate: 'a',
+    gallery: {
+      enabled:true
+    }
+  });
+  {% endif %}
+  {% endif %}
+});
+//--></script> 
+{{ footer }}

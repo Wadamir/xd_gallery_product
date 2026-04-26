@@ -1,0 +1,156 @@
+<h3>{{ heading_title }}</h3>
+<style type="text/css">
+	.og-container .og-album-thumb-frame {
+		width: {{ og_album_frame_width }}px;
+		height: {{ og_album_frame_height }}px;
+	}
+
+	.og-container .og-album-thumb-frame img {
+		width: {{ og_album_thumb_width }}px;
+		height: {{ og_album_thumb_height }}px;
+		top: {{ og_album_frame_padding }}px;
+		left: {{ og_album_frame_padding }}px;
+	}
+</style>
+<div class="row product-layout">
+	{% if og_album_carousel %}
+		<div class="og-container og-album-list-carousel">
+			{% for album in albums %}
+				<div class="og-album-row">
+					<p class="og-album-row-title">
+						<a href="{{ album.href }}" style="font-family:{{ title_font }}; font-size:{{ title_size }}px; {% if og_title_font_weight %} {{ 'font-weight: bold;' }} {% endif %}">
+							{{ album.name }}
+						</a>
+					</p>
+					<div class="og-photo-carousel swiper-viewport">
+						<div id="xd-gallery-module-album-photos-{{ module }}-{{ loop.index }}" class="swiper-container">
+							<div class="swiper-wrapper">
+								{% if album.images %}
+									{% for image in album.images %}
+										<div class="swiper-slide text-center">
+											<a {% if og_album_magnific_popup %}class="popup-pict" href="{{ image.popup }}"{% else %}href="{{ album.href }}"{% endif %}><img src="{{ image.thumb }}" title="{{ image.name }}" alt="{{ image.name }}" class="img-responsive og-photo-carousel-image"/></a>
+										</div>
+									{% endfor %}
+								{% else %}
+									<div class="swiper-slide text-center">
+										<a {% if og_album_magnific_popup and album.popup %}class="popup-pict" href="{{ album.popup }}"{% else %}href="{{ album.href }}"{% endif %}><img src="{{ album.thumb}}" title="{{ album.name }}" alt="{{ album.name }}" class="img-responsive og-photo-carousel-image"/></a>
+									</div>
+								{% endif %}
+							</div>
+						</div>
+						<div class="swiper-pagination xd-gallery-module-album-photos-pagination-{{ module }}-{{ loop.index }}"></div>
+						<div class="swiper-pager">
+							<div class="swiper-button-next xd-gallery-module-album-photos-next-{{ module }}-{{ loop.index }}"></div>
+							<div class="swiper-button-prev xd-gallery-module-album-photos-prev-{{ module }}-{{ loop.index }}"></div>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+		<script type="text/javascript"><!--
+		(function($) {
+			function ensureSwiperAssets(callback) {
+				var cssMainPart = 'catalog/view/javascript/jquery/swiper/css/swiper.min.css';
+				var cssThemePart = 'catalog/view/javascript/jquery/swiper/css/opencart.css';
+				var jsPart = 'catalog/view/javascript/jquery/swiper/js/swiper.jquery.js';
+
+				if (!$('link[href*="' + cssMainPart + '"]').length) {
+					$('head').append('<link rel="stylesheet" href="' + cssMainPart + '" type="text/css" />');
+				}
+
+				if (!$('link[href*="' + cssThemePart + '"]').length) {
+					$('head').append('<link rel="stylesheet" href="' + cssThemePart + '" type="text/css" />');
+				}
+
+				if ($.fn && $.fn.swiper) {
+					callback();
+					return;
+				}
+
+				var $existing = $('script[src*="' + jsPart + '"]');
+
+				if ($existing.length) {
+					$existing.on('load', callback);
+					setTimeout(callback, 300);
+					return;
+				}
+
+				var script = document.createElement('script');
+				script.src = jsPart;
+				script.onload = callback;
+				document.body.appendChild(script);
+			}
+
+			function initAlbumCarousels() {
+				if (!($.fn && $.fn.swiper)) {
+					return;
+				}
+
+				{% for album in albums %}
+				var $el{{ loop.index }} = $('#xd-gallery-module-album-photos-{{ module }}-{{ loop.index }}');
+				if ($el{{ loop.index }}.length && !$el{{ loop.index }}.data('xd-swiper-initialized')) {
+					$el{{ loop.index }}.data('xd-swiper-initialized', 1);
+					$el{{ loop.index }}.swiper({
+						mode: 'horizontal',
+						slidesPerView: {{ og_album_carousel_xxl }},
+						spaceBetween: {{ og_album_carousel_space }},
+						breakpoints: {
+							1399: { slidesPerView: {{ og_album_carousel_xl }} },
+							1199: { slidesPerView: {{ og_album_carousel_lg }} },
+							991: { slidesPerView: {{ og_album_carousel_md }} },
+							767: { slidesPerView: {{ og_album_carousel_sm }} },
+							575: { slidesPerView: {{ og_album_carousel_xs }} }
+						},
+					pagination: {% if og_album_carousel_pagination %}'.xd-gallery-module-album-photos-pagination-{{ module }}-{{ loop.index }}'{% else %}false{% endif %},
+					paginationClickable: true,
+						nextButton: '.xd-gallery-module-album-photos-next-{{ module }}-{{ loop.index }}',
+						prevButton: '.xd-gallery-module-album-photos-prev-{{ module }}-{{ loop.index }}',
+					autoplay: {{ og_album_carousel_autoplay > 0 ? og_album_carousel_autoplay : false }},
+					loop: {{ og_album_carousel_loop ? 'true' : 'false' }}
+					});
+				}
+				{% if og_album_magnific_popup %}
+				$el{{ loop.index }}.magnificPopup({
+					type: 'image',
+					delegate: 'a.popup-pict',
+					gallery: { enabled: true }
+				});
+				{% endif %}
+				{% endfor %}
+			}
+
+			$(window).on('load', function() {
+				ensureSwiperAssets(initAlbumCarousels);
+			});
+		})(jQuery);
+		//--></script>
+	{% else %}
+		<div class="og-container">
+			{% for album in albums %}
+				<div class="og-album {{ apr }} col-xs-12" style="height:{{ mheight }};">
+					<div class="og-album-thumb-frame">
+						<a {% if og_album_magnific_popup and album.popup %}class="popup-pict" href="{{ album.popup }}"{% else %}href="{{ album.href }}"{% endif %}><img src="{{ album.thumb}}" title="{{ album.name }}" alt="{{ album.name }}"/></a>
+					</div>
+					<p>
+						<a href="{{ album.href }}" style="font-family:{{ title_font }}; font-size:{{ title_size }}px; {% if og_title_font_weight %} {{ 'font-weight: bold;' }} {% endif %}">
+							{{ album.name }}
+						</a>
+					</p>
+				</div>
+			{% endfor %}
+		</div>
+		{% if og_album_magnific_popup %}
+		<script type="text/javascript"><!--
+		(function($) {
+			$(document).ready(function() {
+				$('.og-container').magnificPopup({
+					type: 'image',
+					delegate: 'a.popup-pict',
+					gallery: { enabled: true }
+				});
+			});
+		})(jQuery);
+		//--></script>
+		{% endif %}
+	{% endif %}
+</div>

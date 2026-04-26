@@ -1,0 +1,98 @@
+{{ header }}{{ column_left }}
+<div id="content">
+	<div class="page-header">
+		<div class="container-fluid">
+			<h1>{{ heading_title }}</h1>
+			<ul class="breadcrumb">
+				{% for breadcrumb in breadcrumbs %}
+				<li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+	<div class="container-fluid">
+		{% if error_warning %}
+		<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+		</div>
+		{% endif %}
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_edit }}</h3>
+			</div>
+			<div class="panel-body">
+
+			
+				<div class="col-lg-4 col-md-4 col-sm-12">
+					<div class="panel-heading">
+						<h3 class="panel-title"><i class="fa fa-dashboard"></i> Обзор</h3>
+					</div>
+					<div class="table-responsive">
+						<table class="table">
+							<tbody>
+								<tr>
+									<td>Альбомы:</td>
+									<td><a href="{{ album_manager }}">{{ total_album }}</a></td>
+								</tr>
+								<tr>
+									<td>Видео:</td>
+									<td><a href="{{ video_manager }}">{{ total_video }}</a></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+				<div class="col-lg-4 col-md-4 col-sm-12">
+					<div class="panel-heading">
+						<h3 class="panel-title"><i class="fa fa-image"></i> Популярные фотоальбомы</h3>
+					</div>
+					<div class="table-responsive">
+						<table class="table">
+							<thead>
+								<tr>
+									<td>Название</td>
+									<td>Просмотры</td>
+								</tr>
+							</thead>
+							<tbody>
+								{% for album in albums %}
+								<tr>
+								<td style="height:23px;"><a href="{{ album.href }}">{{ album.name}}</a></td>
+								<td>{{ album.viewed }}</td>
+								</tr>
+							{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+				<div class="col-lg-4 col-md-4 col-sm-12">
+					<div class="panel-heading">
+						<h3 class="panel-title"><i class="fa fa-video-camera"></i> Популярное видео</h3>
+					</div>
+					<div class="table-responsive">
+						<table class="table">
+							<thead>
+								<tr>
+									<td>Название</td>
+									<td>Просмотры</td>
+								</tr>
+							</thead>
+							<tbody>
+								{% for video in videos %}
+								<tr>
+								<td style="height:23px;"><a href="{{ video.href }}">{{ video.name}}</a></td>
+								<td>{{ video.viewed }}</td>
+								</tr>
+							{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{{ footer }}

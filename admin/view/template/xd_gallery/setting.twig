@@ -1,0 +1,508 @@
+{{ header }}{{ column_left }}
+<div id="content">
+	<div class="page-header">
+		<div class="container-fluid">
+			<div class="pull-right">
+				<button type="submit" form="form-gallery" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary">
+					<i class="fa fa-save"></i>
+				</button>
+				<a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default">
+					<i class="fa fa-reply"></i>
+				</a>
+			</div>
+
+			<h1>{{ heading_title }}</h1>
+			<ul class="breadcrumb">
+				{% for breadcrumb in breadcrumbs %}
+					<li>
+						<a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a>
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+	<div class="container-fluid">
+		{% if error_warning %}
+			<div class="alert alert-danger">
+				<i class="fa fa-exclamation-circle"></i>
+				{{ error_warning }}
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+			</div>
+		{% endif %}
+		{% if success %}
+			<div class="alert alert-success">
+				<i class="fa fa-check-circle"></i>
+				{{ success }}
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+			</div>
+		{% endif %}
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">
+					<i class="fa fa-cogs"></i>
+					{{ text_form }}</h3>
+			</div>
+			<div class="panel-body">
+				<form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-gallery" class="form-horizontal">
+					<ul class="nav nav-tabs">
+						<li class="active">
+							<a href="#tab-general" data-toggle="tab">{{ tab_setting }}</a>
+						</li>
+						<li>
+							<a href="#tab-album" data-toggle="tab">Фотогалерея</a>
+						</li>
+						<li>
+							<a href="#tab-video" data-toggle="tab">Видеогалерея</a>
+						</li>
+					</ul>
+					<div class="tab-content">
+
+						<div class="tab-pane active" id="tab-general">
+							<div class="form-group">
+								<label class="col-sm-2 control-label" for="input-sitemap">Добавить в карту сайта:</label>
+								<div class="col-sm-10">
+									<select name="og_sitemap" id="input-sitemap" class="form-control">
+										<option value="0" {% if og_sitemap == 0 %} {{ ' selected="selected"' }} {% endif %}>Нет</option>
+										<option value="1" {% if og_sitemap == 1 %} {{ ' selected="selected"' }} {% endif %}>Да</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label" for="input-heading-title-font">Шрифт заголовка:</label>
+								<div class="col-sm-10">
+									<select name="og_heading_title_font" id="input-heading-title-font" class="form-control">
+										<option value="27" {% if og_heading_title_font == 27 %} {{ ' selected="selected"' }} {% endif %}>Arial</option>
+										<option value="28" {% if og_heading_title_font == 28 %} {{ ' selected="selected"' }} {% endif %}>Times New Roman</option>
+										<option value="29" {% if og_heading_title_font == 29 %} {{ ' selected="selected"' }} {% endif %}>Tahoma</option>
+										<option value="20" {% if og_heading_title_font == 30 %} {{ ' selected="selected"' }} {% endif %}>Verdana</option>
+										<option value="1" {% if og_heading_title_font == 1 %} {{ ' selected="selected"' }} {% endif %}>Open Sans</option>
+										<option value="2" {% if og_heading_title_font == 2 %} {{ ' selected="selected"' }} {% endif %}>Josefin Slab</option>
+										<option value="3" {% if og_heading_title_font == 3 %} {{ ' selected="selected"' }} {% endif %}>Arvo</option>
+										<option value="6" {% if og_heading_title_font == 6 %} {{ ' selected="selected"' }} {% endif %}>Ubuntu</option>
+										<option value="7" {% if og_heading_title_font == 7 %} {{ ' selected="selected"' }} {% endif %}>PT Sans</option>
+										<option value="8" {% if og_heading_title_font == 8 %} {{ ' selected="selected"' }} {% endif %}>Old Standard TT</option>
+										<option value="9" {% if og_heading_title_font == 9 %} {{ ' selected="selected"' }} {% endif %}>Droid Sans</option>
+										<option value="10" {% if og_heading_title_font == 10 %} {{ ' selected="selected"' }} {% endif %}>Oswald</option>
+										<option value="11" {% if og_heading_title_font == 11 %} {{ ' selected="selected"' }} {% endif %}>Lato</option>
+										<option value="12" {% if og_heading_title_font == 12 %} {{ ' selected="selected"' }} {% endif %}>Lobster Two</option>
+										<option value="13" {% if og_heading_title_font == 13 %} {{ ' selected="selected"' }} {% endif %}>Pacifico</option>
+										<option value="14" {% if og_heading_title_font == 14 %} {{ ' selected="selected"' }} {% endif %}>Oleo Script</option>
+										<option value="21" {% if og_heading_title_font == 21 %} {{ ' selected="selected"' }} {% endif %}>Montserrat</option>
+										<option value="24" {% if og_heading_title_font == 24 %} {{ ' selected="selected"' }} {% endif %}>Inconsolata</option>
+										<option value="25" {% if og_heading_title_font == 25 %} {{ ' selected="selected"' }} {% endif %}>Roboto</option>
+										<option value="26" {% if og_heading_title_font == 26 %} {{ ' selected="selected"' }} {% endif %}>Proxima Nova</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label" for="input-heading-title-size">Размер заголовка:</label>
+								<div class="col-sm-10">
+									<select name="og_heading_title_size" id="input-heading-title-size" class="form-control">
+										<option value="15" {% if og_heading_title_size == 15 %} {{ ' selected="selected"' }} {% endif %}>15</option>
+										<option value="16" {% if og_heading_title_size == 16 %} {{ ' selected="selected"' }} {% endif %}>16</option>
+										<option value="17" {% if og_heading_title_size == 17 %} {{ ' selected="selected"' }} {% endif %}>17</option>
+										<option value="18" {% if og_heading_title_size == 18 %} {{ ' selected="selected"' }} {% endif %}>18</option>
+										<option value="19" {% if og_heading_title_size == 19 %} {{ ' selected="selected"' }} {% endif %}>19</option>
+										<option value="20" {% if og_heading_title_size == 20 %} {{ ' selected="selected"' }} {% endif %}>20</option>
+										<option value="21" {% if og_heading_title_size == 21 %} {{ ' selected="selected"' }} {% endif %}>21</option>
+										<option value="22" {% if og_heading_title_size == 22 %} {{ ' selected="selected"' }} {% endif %}>22</option>
+										<option value="23" {% if og_heading_title_size == 23 %} {{ ' selected="selected"' }} {% endif %}>23</option>
+										<option value="24" {% if og_heading_title_size == 24 %} {{ ' selected="selected"' }} {% endif %}>24</option>
+										<option value="26" {% if og_heading_title_size == 26 %} {{ ' selected="selected"' }} {% endif %}>26</option>
+										<option value="28" {% if og_heading_title_size == 28 %} {{ ' selected="selected"' }} {% endif %}>28</option>
+										<option value="30" {% if og_heading_title_size == 30 %} {{ ' selected="selected"' }} {% endif %}>30</option>
+										<option value="32" {% if og_heading_title_size == 32 %} {{ ' selected="selected"' }} {% endif %}>32</option>
+										<option value="34" {% if og_heading_title_size == 34 %} {{ ' selected="selected"' }} {% endif %}>34</option>
+										<option value="36" {% if og_heading_title_size == 36 %} {{ ' selected="selected"' }} {% endif %}>36</option>
+										<option value="38" {% if og_heading_title_size == 38 %} {{ ' selected="selected"' }} {% endif %}>38</option>
+										<option value="40" {% if og_heading_title_size == 40 %} {{ ' selected="selected"' }} {% endif %}>40</option>
+										<option value="42" {% if og_heading_title_size == 42 %} {{ ' selected="selected"' }} {% endif %}>42</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label" for="input-album-video-title-font">Шрифт заголовка фото/видео:</label>
+								<div class="col-sm-10">
+									<select name="og_title_font" id="input-album-video-title-font" class="form-control">
+										<option value="27" {% if og_title_font == 27 %} {{ ' selected="selected"' }} {% endif %}>Arial</option>
+										<option value="28" {% if og_title_font == 28 %} {{ ' selected="selected"' }} {% endif %}>Times New Roman</option>
+										<option value="29" {% if og_title_font == 29 %} {{ ' selected="selected"' }} {% endif %}>Tahoma</option>
+										<option value="20" {% if og_title_font == 30 %} {{ ' selected="selected"' }} {% endif %}>Verdana</option>
+										<option value="1" {% if og_title_font == 1 %} {{ ' selected="selected"' }} {% endif %}>Open Sans</option>
+										<option value="2" {% if og_title_font == 2 %} {{ ' selected="selected"' }} {% endif %}>Josefin Slab</option>
+										<option value="3" {% if og_title_font == 3 %} {{ ' selected="selected"' }} {% endif %}>Arvo</option>
+										<option value="6" {% if og_title_font == 6 %} {{ ' selected="selected"' }} {% endif %}>Ubuntu</option>
+										<option value="7" {% if og_title_font == 7 %} {{ ' selected="selected"' }} {% endif %}>PT Sans</option>
+										<option value="8" {% if og_title_font == 8 %} {{ ' selected="selected"' }} {% endif %}>Old Standard TT</option>
+										<option value="9" {% if og_title_font == 9 %} {{ ' selected="selected"' }} {% endif %}>Droid Sans</option>
+										<option value="10" {% if og_title_font == 10 %} {{ ' selected="selected"' }} {% endif %}>Oswald</option>
+										<option value="11" {% if og_title_font == 11 %} {{ ' selected="selected"' }} {% endif %}>Lato</option>
+										<option value="12" {% if og_title_font == 12 %} {{ ' selected="selected"' }} {% endif %}>Lobster Two</option>
+										<option value="13" {% if og_title_font == 13 %} {{ ' selected="selected"' }} {% endif %}>Pacifico</option>
+										<option value="14" {% if og_title_font == 14 %} {{ ' selected="selected"' }} {% endif %}>Oleo Script</option>
+										<option value="21" {% if og_title_font == 21 %} {{ ' selected="selected"' }} {% endif %}>Montserrat</option>
+										<option value="24" {% if og_title_font == 24 %} {{ ' selected="selected"' }} {% endif %}>Inconsolata</option>
+										<option value="25" {% if og_title_font == 25 %} {{ ' selected="selected"' }} {% endif %}>Roboto</option>
+										<option value="26" {% if og_title_font == 26 %} {{ ' selected="selected"' }} {% endif %}>Proxima Nova</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label" for="input-album-video-title-size">Размер заголовка фото/видео:</label>
+								<div class="col-sm-10">
+									<select name="og_title_size" id="input-album-video-title-size" class="form-control">
+										<option value="10" {% if og_title_size == 10 %} {{ ' selected="selected"' }} {% endif %}>10</option>
+										<option value="11" {% if og_title_size == 11 %} {{ ' selected="selected"' }} {% endif %}>11</option>
+										<option value="12" {% if og_title_size == 12 %} {{ ' selected="selected"' }} {% endif %}>12</option>
+										<option value="13" {% if og_title_size == 13 %} {{ ' selected="selected"' }} {% endif %}>13</option>
+										<option value="14" {% if og_title_size == 14 %} {{ ' selected="selected"' }} {% endif %}>14</option>
+										<option value="15" {% if og_title_size == 15 %} {{ ' selected="selected"' }} {% endif %}>15</option>
+										<option value="16" {% if og_title_size == 16 %} {{ ' selected="selected"' }} {% endif %}>16</option>
+										<option value="17" {% if og_title_size == 17 %} {{ ' selected="selected"' }} {% endif %}>17</option>
+										<option value="18" {% if og_title_size == 18 %} {{ ' selected="selected"' }} {% endif %}>18</option>
+										<option value="20" {% if og_title_size == 20 %} {{ ' selected="selected"' }} {% endif %}>20</option>
+										<option value="22" {% if og_title_size == 22 %} {{ ' selected="selected"' }} {% endif %}>22</option>
+										<option value="24" {% if og_title_size == 24 %} {{ ' selected="selected"' }} {% endif %}>24</option>
+										<option value="26" {% if og_title_size == 26 %} {{ ' selected="selected"' }} {% endif %}>26</option>
+										<option value="28" {% if og_title_size == 28 %} {{ ' selected="selected"' }} {% endif %}>28</option>
+										<option value="30" {% if og_title_size == 30 %} {{ ' selected="selected"' }} {% endif %}>30</option>
+										<option value="32" {% if og_title_size == 32 %} {{ ' selected="selected"' }} {% endif %}>32</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label" for="input-album-video-title-font-weight">Начертание заголовка фото/видео:</label>
+								<div class="col-sm-10">
+									<label class="radio-inline">
+										{% if og_title_font_weight %}
+											<input type="radio" name="og_title_font_weight" value="1" checked="checked"/>
+											Жирное
+										{% else %}
+											<input type="radio" name="og_title_font_weight" value="1"/>
+											Жирное
+										{% endif %}
+									</label>
+									<label class="radio-inline">
+										{% if not og_title_font_weight %}
+											<input type="radio" name="og_title_font_weight" value="0" checked="checked"/>
+											Нормальное
+										{% else %}
+											<input type="radio" name="og_title_font_weight" value="0"/>
+											Нормальное
+										{% endif %}
+									</label>
+
+								</div>
+							</div>
+						</div>
+
+						<div class="tab-pane" id="tab-album">
+							<fieldset>
+								<legend>Пункт в главном меню:</legend>
+								<div class="form-group">
+									<label class="col-sm-2 control-label" for="input-album-menu">Добавить в меню:</label>
+									<div class="col-sm-10">
+										<select name="og_album_menu" id="input-album-menu" class="form-control">
+											<option value="0" {% if og_album_menu == 0 %} {{ ' selected="selected"' }} {% endif %}>Отключено</option>
+											<option value="1" {% if og_album_menu == 1 %} {{ ' selected="selected"' }} {% endif %}>Включено</option>
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label" for="input-album-title">Название пункта меню</label>
+									<div class="col-sm-10">
+										<input type="text" name="og_album_title" id="input-album-title" class="form-control" value="{{ og_album_title }}"/>
+									</div>
+								</div>
+							</fieldset>
+							<fieldset>
+								<legend>Страница списка фотоальбомов:</legend>
+								<div class="form-group">
+									<label class="col-sm-2 control-label" for="input-album-per-row">Альбомов в строке:</label>
+									<div class="col-sm-10">
+										<select name="og_album_per_row" id="input-album-per-row" class="form-control">
+											<option value="1" {% if og_album_per_row == 1 %} {{ ' selected="selected"' }} {% endif %}>1</option>
+											<option value="2" {% if og_album_per_row == 2 %} {{ ' selected="selected"' }} {% endif %}>2</option>
+											<option value="3" {% if og_album_per_row == 3 %} {{ ' selected="selected"' }} {% endif %}>3</option>
+											<option value="4" {% if og_album_per_row == 4 %} {{ ' selected="selected"' }} {% endif %}>4</option>
+											<option value="6" {% if og_album_per_row == 6 %} {{ ' selected="selected"' }} {% endif %}>6</option>
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label" for="input-album-size">Размеры альбомов:</label>
+									<div class="col-sm-10">
+										<select name="og_album_size" id="input-album-size" class="form-control">
+											<option value="1" {% if og_album_size == 1 %} {{ ' selected="selected"' }} {% endif %}>Маленькие</option>
+											<option value="2" {% if og_album_size == 2 %} {{ ' selected="selected"' }} {% endif %}>Средние</option>
+											<option value="3" {% if og_album_size == 3 %} {{ ' selected="selected"' }} {% endif %}>Большие</option>
+										</select>
+									</div>
+								</div>                      
+								<div class="form-group">
+									<label class="col-sm-2 control-label" for="input-default-album-per-page">Кол-во альбомов на странице:</label>
+									<div class="col-sm-10">
+										<input type="text" name="og_album_per_page" id="input-default-album-per-page" class="form-control" value="{{ og_album_per_page }}" size="4"/>
+									</div>
+								</div>                                          
+								<div class="form-group">
+									<label class="col-sm-2 control-label" for="input-album-carousel">Показывать как карусель:</label>
+									<div class="col-sm-10">
+										<select name="og_album_carousel" id="input-album-carousel" class="form-control">
+											<option value="0" {% if og_album_carousel == 0 %} {{ ' selected="selected"' }} {% endif %}>Нет</option>
+											<option value="1" {% if og_album_carousel == 1 %} {{ ' selected="selected"' }} {% endif %}>Да</option>
+										</select>
+									</div>
+								</div>							<div class="form-group">
+								<label class="col-sm-2 control-label" for="input-album-carousel-pagination">Показывать pagination:</label>
+								<div class="col-sm-10">
+									<select name="og_album_carousel_pagination" id="input-album-carousel-pagination" class="form-control">
+										<option value="0" {% if og_album_carousel_pagination == 0 %} {{ ' selected="selected"' }} {% endif %}>Нет</option>
+										<option value="1" {% if og_album_carousel_pagination == 1 %} {{ ' selected="selected"' }} {% endif %}>Да</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label" for="input-album-carousel-loop">Зациклить карусель:</label>
+								<div class="col-sm-10">
+									<select name="og_album_carousel_loop" id="input-album-carousel-loop" class="form-control">
+										<option value="0" {% if og_album_carousel_loop == 0 %} {{ ' selected="selected"' }} {% endif %}>Нет</option>
+										<option value="1" {% if og_album_carousel_loop == 1 %} {{ ' selected="selected"' }} {% endif %}>Да</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label" for="input-album-carousel-space">Отступ между слайдами (px):</label>
+								<div class="col-sm-10">
+									<input type="number" name="og_album_carousel_space" id="input-album-carousel-space" class="form-control" value="{{ og_album_carousel_space }}" min="0" size="4"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label" for="input-album-carousel-autoplay">Длительность autoplay (мс, 0 — отключить):</label>
+								<div class="col-sm-10">
+									<input type="number" name="og_album_carousel_autoplay" id="input-album-carousel-autoplay" class="form-control" value="{{ og_album_carousel_autoplay }}" min="0" size="6"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label" for="input-album-magnific-popup">Использовать magnific popup:</label>
+								<div class="col-sm-10">
+									<select name="og_album_magnific_popup" id="input-album-magnific-popup" class="form-control">
+										<option value="0" {% if og_album_magnific_popup == 0 %} {{ ' selected="selected"' }} {% endif %}>Нет</option>
+										<option value="1" {% if og_album_magnific_popup == 1 %} {{ ' selected="selected"' }} {% endif %}>Да</option>
+									</select>
+								</div>
+							</div>
+                            <div class="form-group">
+									<label class="col-sm-2 control-label">Настройки карусели по разрешениям:</label>
+									<div class="col-sm-10">
+										<div class="table-responsive">
+											<table class="table table-bordered table-striped">
+												<thead>
+													<tr>
+														<th>Параметр</th>
+														<th>XS (&lt;576px)</th>
+														<th>SM (&ge;576px)</th>
+														<th>MD (&ge;768px)</th>
+														<th>LG (&ge;992px)</th>
+														<th>XL (&ge;1200px)</th>
+														<th>XXL (&ge;1400px)</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td><strong>Миниатюр в карусели</strong></td>
+														<td>
+															<select name="og_album_carousel_xs" id="input-album-carousel-xs" class="form-control">
+																<option value="1" {% if og_album_carousel_xs == 1 %} {{ ' selected="selected"' }} {% endif %}>1</option>
+																<option value="2" {% if og_album_carousel_xs == 2 %} {{ ' selected="selected"' }} {% endif %}>2</option>
+																<option value="3" {% if og_album_carousel_xs == 3 %} {{ ' selected="selected"' }} {% endif %}>3</option>
+																<option value="4" {% if og_album_carousel_xs == 4 %} {{ ' selected="selected"' }} {% endif %}>4</option>
+																<option value="6" {% if og_album_carousel_xs == 6 %} {{ ' selected="selected"' }} {% endif %}>6</option>
+																<option value="8" {% if og_album_carousel_xs == 8 %} {{ ' selected="selected"' }} {% endif %}>8</option>
+															</select>
+														</td>
+														<td>
+															<select name="og_album_carousel_sm" id="input-album-carousel-sm" class="form-control">
+																<option value="1" {% if og_album_carousel_sm == 1 %} {{ ' selected="selected"' }} {% endif %}>1</option>
+																<option value="2" {% if og_album_carousel_sm == 2 %} {{ ' selected="selected"' }} {% endif %}>2</option>
+																<option value="3" {% if og_album_carousel_sm == 3 %} {{ ' selected="selected"' }} {% endif %}>3</option>
+																<option value="4" {% if og_album_carousel_sm == 4 %} {{ ' selected="selected"' }} {% endif %}>4</option>
+																<option value="6" {% if og_album_carousel_sm == 6 %} {{ ' selected="selected"' }} {% endif %}>6</option>
+																<option value="8" {% if og_album_carousel_sm == 8 %} {{ ' selected="selected"' }} {% endif %}>8</option>
+															</select>
+														</td>
+														<td>
+															<select name="og_album_carousel_md" id="input-album-carousel-md" class="form-control">
+																<option value="1" {% if og_album_carousel_md == 1 %} {{ ' selected="selected"' }} {% endif %}>1</option>
+																<option value="2" {% if og_album_carousel_md == 2 %} {{ ' selected="selected"' }} {% endif %}>2</option>
+																<option value="3" {% if og_album_carousel_md == 3 %} {{ ' selected="selected"' }} {% endif %}>3</option>
+																<option value="4" {% if og_album_carousel_md == 4 %} {{ ' selected="selected"' }} {% endif %}>4</option>
+																<option value="6" {% if og_album_carousel_md == 6 %} {{ ' selected="selected"' }} {% endif %}>6</option>
+																<option value="8" {% if og_album_carousel_md == 8 %} {{ ' selected="selected"' }} {% endif %}>8</option>
+															</select>
+														</td>
+														<td>
+															<select name="og_album_carousel_lg" id="input-album-carousel-lg" class="form-control">
+																<option value="1" {% if og_album_carousel_lg == 1 %} {{ ' selected="selected"' }} {% endif %}>1</option>
+																<option value="2" {% if og_album_carousel_lg == 2 %} {{ ' selected="selected"' }} {% endif %}>2</option>
+																<option value="3" {% if og_album_carousel_lg == 3 %} {{ ' selected="selected"' }} {% endif %}>3</option>
+																<option value="4" {% if og_album_carousel_lg == 4 %} {{ ' selected="selected"' }} {% endif %}>4</option>
+																<option value="6" {% if og_album_carousel_lg == 6 %} {{ ' selected="selected"' }} {% endif %}>6</option>
+																<option value="8" {% if og_album_carousel_lg == 8 %} {{ ' selected="selected"' }} {% endif %}>8</option>
+															</select>
+														</td>
+														<td>
+															<select name="og_album_carousel_xl" id="input-album-carousel-xl" class="form-control">
+																<option value="1" {% if og_album_carousel_xl == 1 %} {{ ' selected="selected"' }} {% endif %}>1</option>
+																<option value="2" {% if og_album_carousel_xl == 2 %} {{ ' selected="selected"' }} {% endif %}>2</option>
+																<option value="3" {% if og_album_carousel_xl == 3 %} {{ ' selected="selected"' }} {% endif %}>3</option>
+																<option value="4" {% if og_album_carousel_xl == 4 %} {{ ' selected="selected"' }} {% endif %}>4</option>
+																<option value="6" {% if og_album_carousel_xl == 6 %} {{ ' selected="selected"' }} {% endif %}>6</option>
+																<option value="8" {% if og_album_carousel_xl == 8 %} {{ ' selected="selected"' }} {% endif %}>8</option>
+															</select>
+														</td>
+														<td>
+															<select name="og_album_carousel_xxl" id="input-album-carousel-xxl" class="form-control">
+																<option value="1" {% if og_album_carousel_xxl == 1 %} {{ ' selected="selected"' }} {% endif %}>1</option>
+																<option value="2" {% if og_album_carousel_xxl == 2 %} {{ ' selected="selected"' }} {% endif %}>2</option>
+																<option value="3" {% if og_album_carousel_xxl == 3 %} {{ ' selected="selected"' }} {% endif %}>3</option>
+																<option value="4" {% if og_album_carousel_xxl == 4 %} {{ ' selected="selected"' }} {% endif %}>4</option>
+																<option value="6" {% if og_album_carousel_xxl == 6 %} {{ ' selected="selected"' }} {% endif %}>6</option>
+																<option value="8" {% if og_album_carousel_xxl == 8 %} {{ ' selected="selected"' }} {% endif %}>8</option>
+															</select>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label" for="input-album-thumb-size">Размер миниатюр: (px)</label>
+									<div class="col-sm-10">
+										<div class="col-sm-6">
+											<input type="text" name="og_album_thumb_width" id="input-album-thumb-size" class="form-control" value="{{ og_album_thumb_width }}" size="4" placeholder="Ширина"/>
+										</div>
+										<div class="col-sm-6">
+											<input type="text" name="og_album_thumb_height" class="form-control" value="{{ og_album_thumb_height }}" size="4" placeholder="Высота"/>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label" for="input-image-popup-size">Размер всплывающего фото: (px)</label>
+									<div class="col-sm-10">
+										<div class="col-sm-6">
+											<input type="text" name="og_image_pu_width" id="input-image-popup-size" value="{{ og_image_pu_width }}" size="3" class="form-control"/>
+										</div>
+										<div class="col-sm-6">
+											<input type="text" name="og_image_pu_height" value="{{ og_image_pu_height }}" size="3" class="form-control"/>
+										</div>
+									</div>
+								</div>
+							</fieldset>
+						</div>
+						<div class="tab-pane" id="tab-video">
+							<fieldset>
+								<legend>Пункт в главном меню:</legend>
+								<div class="form-group">
+									<label class="col-sm-2 control-label" for="input-video-menu">Добавить в меню:</label>
+									<div class="col-sm-10">
+										<select name="og_video_menu" id="input-video-menu" class="form-control">
+											<option value="0" {% if og_video_menu == 0 %} {{ ' selected="selected"' }} {% endif %}>Отключено</option>
+											<option value="1" {% if og_video_menu == 1 %} {{ ' selected="selected"' }} {% endif %}>Включено</option>
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label" for="input-video-title">Название пункта меню</label>
+									<div class="col-sm-10">
+										<input type="text" name="og_video_title" id="input-video-title" class="form-control" value="{{ og_video_title }}"/>
+									</div>
+								</div>
+							</fieldset>
+							<fieldset>
+								<legend>Страница видеогалереи:</legend>
+								<div class="form-group">
+									<label class="col-sm-2 control-label" for="input-video-play-button">Кнопка Play:</label>
+									<div class="col-sm-10">
+										<div style="width:80px; float:left; margin-right:10px;"><input type="radio" name="og_video_btn" value="1" {% if og_video_btn == 1 %} {{ 'checked="checked"' }} {% endif %}/><div style="background: url('../catalog/view/theme/default/image/xd_gallery/play_button/1.png') repeat-x; width:50px; height:50px; float:right;"></div>
+										</div>
+										<div style="width:80px; float:left; margin-right:10px;"><input type="radio" name="og_video_btn" value="2" {% if og_video_btn == 2 %} {{ 'checked="checked"' }} {% endif %}/><div style="background: url('../catalog/view/theme/default/image/xd_gallery/play_button/2.png') repeat-x; width:50px; height:50px; float:right;"></div>
+										</div>
+										<div style="width:80px; float:left; margin-right:10px;"><input type="radio" name="og_video_btn" value="3" {% if og_video_btn == 3 %} {{ 'checked="checked"' }} {% endif %}/><div style="background: url('../catalog/view/theme/default/image/xd_gallery/play_button/3.png') repeat-x; width:50px; height:50px; float:right;"></div>
+										</div>
+										<div style="width:80px; float:left; margin-right:10px;"><input type="radio" name="og_video_btn" value="4" {% if og_video_btn == 4 %} {{ 'checked="checked"' }} {% endif %}/><div style="background: url('../catalog/view/theme/default/image/xd_gallery/play_button/4.png') repeat-x; width:50px; height:50px; float:right;"></div>
+										</div>
+										<div style="width:80px; float:left; margin-right:10px;"><input type="radio" name="og_video_btn" value="5" {% if og_video_btn == 5 %} {{ 'checked="checked"' }} {% endif %}/><div style="background: url('../catalog/view/theme/default/image/xd_gallery/play_button/5.png') repeat-x; width:50px; height:50px; float:right;"></div>
+										</div>
+										<div style="width:80px; float:left; margin-right:10px;"><input type="radio" name="og_video_btn" value="6" {% if og_video_btn == 6 %} {{ 'checked="checked"' }} {% endif %}/><div style="background: url('../catalog/view/theme/default/image/xd_gallery/play_button/6.png') repeat-x; width:50px; height:50px; float:right;"></div>
+										</div>
+										<div style="width:80px; float:left; margin-right:10px;"><input type="radio" name="og_video_btn" value="7" {% if og_video_btn == 7 %} {{ 'checked="checked"' }} {% endif %}/><div style="background: url('../catalog/view/theme/default/image/xd_gallery/play_button/7.png') repeat-x; width:50px; height:50px; float:right;"></div>
+										</div>
+										<div style="width:80px; float:left; margin-right:10px;"><input type="radio" name="og_video_btn" value="8" {% if og_video_btn == 8 %} {{ 'checked="checked"' }} {% endif %}/><div style="background: url('../catalog/view/theme/default/image/xd_gallery/play_button/8.png') repeat-x; width:50px; height:50px; float:right;"></div>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label" for="input-video-per-row">Видео в строке:</label>
+									<div class="col-sm-10">
+										<select name="og_video_per_row" id="input-video-per-row" class="form-control">
+											<option value="2" {% if og_video_per_row == 2 %} {{ ' selected="selected"' }} {% endif %}>2</option>
+											<option value="3" {% if og_video_per_row == 3 %} {{ ' selected="selected"' }} {% endif %}>3</option>
+											<option value="4" {% if og_video_per_row == 4 %} {{ ' selected="selected"' }} {% endif %}>4</option>
+											<option value="6" {% if og_video_per_row == 6 %} {{ ' selected="selected"' }} {% endif %}>6</option>
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label" for="input-video-size">Размеры видео:</label>
+									<div class="col-sm-10">
+										<select name="og_video_list_size" id="input-video-size" class="form-control">
+											<option value="1" {% if og_video_list_size == 1 %} {{ ' selected="selected"' }} {% endif %}>128 x 72</option>
+											<option value="2" {% if og_video_list_size == 2 %} {{ ' selected="selected"' }} {% endif %}>160 x 90</option>
+											<option value="3" {% if og_video_list_size == 3 %} {{ ' selected="selected"' }} {% endif %}>192 x 108</option>
+											<option value="4" {% if og_video_list_size == 4 %} {{ ' selected="selected"' }} {% endif %}>224 x 126</option>
+											<option value="5" {% if og_video_list_size == 5 %} {{ ' selected="selected"' }} {% endif %}>256 x 144</option>
+											<option value="6" {% if og_video_list_size == 6 %} {{ ' selected="selected"' }} {% endif %}>288 x 162</option>
+											<option value="7" {% if og_video_list_size == 7 %} {{ ' selected="selected"' }} {% endif %}>320 x 180</option>
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label" for="input-video-height">Высота видео: (px)</label>
+									<div class="col-sm-10">
+										<input type="text" name="og_video_height" id="input-video-height" class="form-control" value="{{ og_video_height }}" size="4"/>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label" for="input-default-videos-per-page">Кол-во видео на страницу:</label>
+									<div class="col-sm-10">
+										<input type="text" name="og_video_per_page" id="input-default-videos-per-page" value="{{ og_video_per_page }}" size="4" class="form-control"/>
+									</div>
+								</div>
+							</fieldset>
+							<fieldset>
+								<legend>Страница одного видео:</legend>
+								<div class="form-group">
+									<label class="col-sm-2 control-label" for="input-video-size">Размеры видео:</label>
+									<div class="col-sm-10">
+										<select name="og_video_size" id="input-video-size" class="form-control">
+											<option value="1" {% if og_video_size == 1 %} {{ ' selected="selected"' }} {% endif %}>320 x 240</option>
+											<option value="2" {% if og_video_size == 2 %} {{ ' selected="selected"' }} {% endif %}>432 x 243</option>
+											<option value="3" {% if og_video_size == 3 %} {{ ' selected="selected"' }} {% endif %}>560 x 315</option>
+											<option value="4" {% if og_video_size == 4 %} {{ ' selected="selected"' }} {% endif %}>640 x 360</option>
+											<option value="5" {% if og_video_size == 5 %} {{ ' selected="selected"' }} {% endif %}>672 x 378</option>
+											<option value="6" {% if og_video_size == 6 %} {{ ' selected="selected"' }} {% endif %}>752 x 423</option>
+											<option value="7" {% if og_video_size == 7 %} {{ ' selected="selected"' }} {% endif %}>784 x 441</option>
+											<option value="8" {% if og_video_size == 8 %} {{ ' selected="selected"' }} {% endif %}>100% x 100%</option>
+										</select>
+									</div>
+								</div>
+							</fieldset>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	{{ footer }}

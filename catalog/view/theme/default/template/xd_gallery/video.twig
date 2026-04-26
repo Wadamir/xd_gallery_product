@@ -1,0 +1,48 @@
+{{ header }}
+<div class="container">
+	<ul class="breadcrumb">
+		{% for breadcrumb in breadcrumbs %}
+		<li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+		{% endfor %}
+	</ul>
+	<div class="row">{{ column_left }}
+		{% if column_left  and  column_right %}
+	      {% set class = 'col-sm-6' %}
+	    {% elseif  column_left  or  column_right %}
+	      {% set class = 'col-sm-9' %}
+	    {% else %}
+	      {% set class = 'col-sm-12' %}
+	    {% endif %} 
+		<div id="content" class="{{ class }}">{{ content_top }}
+			<h1 class="gallery-title" style="font-family: {{ heading_title_font }} ; font-size: {{ heading_title_size }}px;">{{ heading_title }}</h1>
+			
+			{% if videos %}
+			<div class="row product-layout">
+				<div class="og-container">
+					{% for video in videos %}
+					<div class="{{ apr }} col-xs-12 og-vd-md" style="height:{{ og_video_height }}px;">
+						<div class="og-vd-md-{{ og_video_list_size }}">
+							<a href="{{ video.href }}">
+								<img src="{{ video.thumb}}" title="{{ video.name }}" alt="{{ video.name }}"/>
+								<div class="play-button play-button-{{ play_btn_icon }}" style="top:{{ play_btn_top }}px; left:{{ play_btn_left }}px;"></div>
+							</a>
+						</div>
+						<p><a href="{{ video.href }}" style="font-family: {{ title_font }} ; font-size: {{ title_size }}px; {% if og_title_font_weight %} {{ 'font-weight: bold;' }} {% endif %} ">{{ video.name }}</a>
+					 </p>
+					</div>
+					{% endfor %}
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-12 text-center">{{ pagination }}</div>
+			</div>
+			{% endif %}
+
+			{% if not videos %}
+				<p>{{ text_empty }}</p>
+			{% endif %}
+
+			{{ content_bottom }}</div>
+		{{ column_right }}</div>
+</div>
+{{ footer }}

@@ -1,0 +1,139 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        <button type="submit" form="form-opencart-gallery-album" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+        <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a></div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+    {% if error_warning %}
+    <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_edit }}</h3>
+      </div>
+      <div class="panel-body">
+        <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-opencart-gallery-album" class="form-horizontal">
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-album"><span data-toggle="tooltip" title="{{ help_album }}">{{ entry_album }}</span></label>
+            <div class="col-sm-10">
+              <input type="text" name="album" value="" placeholder="{{ entry_album }}" id="input-album" class="form-control" />
+              <div id="featured-album" class="well well-sm" style="height: 150px; overflow: auto;">
+                {% for album in albums %}
+                <div id="featured-album{{ album.album }}"><i class="fa fa-minus-circle"></i> {{ album.name }}
+                  <input type="hidden" value="{{ album.album_id }}" />
+                </div>
+                {% endfor %}
+              </div>
+              <input type="hidden" name="xd_gallery_album_featured" value="{{ featured_album }}" class="form-control" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-status">{{ entry_status }}</label>
+            <div class="col-sm-10">
+              <select name="xd_gallery_album_status" id="input-status" class="form-control">
+                {% if xd_gallery_album_status %}
+                <option value="1" selected="selected">{{ text_enabled }}</option>
+                <option value="0">{{ text_disabled }}</option>
+                {% else %}
+                <option value="1">{{ text_enabled }}</option>
+                <option value="0" selected="selected">{{ text_disabled }}</option>
+                {% endif %} 
+              </select>
+            </div>
+          </div>          
+          <table id="module" class="table table-striped table-bordered table-hover">
+            <thead>
+              <tr>
+                <td class="text-left">{{ entry_limit }}</td>
+                <td class="text-left">{{ entry_apr }}</td>
+                <td class="text-left">{{ entry_as }}</td>
+                <td class="text-left">{{ entry_sort_by }}</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr id="module-row">
+                <td class="text-left"><input type="text" name="xd_gallery_album_module[limit]" value="{{ xd_gallery_album_module.limit }}" placeholder="{{ entry_limit }}" class="form-control" /></td>
+                <td class="text-left">
+                  <select name="xd_gallery_album_module[apr]" class="form-control">
+                    <option value="1" {% if xd_gallery_album_module.apr == 1 %}selected="selected"{% endif %}>1</option>
+                    <option value="2" {% if xd_gallery_album_module.apr == 2 %}selected="selected"{% endif %}>2</option>
+                    <option value="3" {% if xd_gallery_album_module.apr == 3 %}selected="selected"{% endif %}>3</option>
+                    <option value="4" {% if xd_gallery_album_module.apr == 4 %}selected="selected"{% endif %}>4</option>
+                    <option value="6" {% if xd_gallery_album_module.apr == 6 %}selected="selected"{% endif %}>6</option>
+                  </select>
+                </td>
+                <td>
+                  <select name="xd_gallery_album_module[as]" class="form-control">
+                    <option value="1" {% if xd_gallery_album_module.as == 1 %}selected="selected"{% endif %}>Маленькие</option>
+                    <option value="2" {% if xd_gallery_album_module.as == 2 %}selected="selected"{% endif %}>Средние</option>
+                    <option value="3" {% if xd_gallery_album_module.as == 3 %}selected="selected"{% endif %}>Большие</option>
+                  </select>
+                </td>
+                <td class="left"><select name="xd_gallery_album_module[sb]" class="form-control">
+                  <option value="1" {% if xd_gallery_album_module.sb == 1 %}selected="selected"{% endif %}>Последние</option>
+                  <option value="2" {% if xd_gallery_album_module.sb == 2 %}selected="selected"{% endif %}>По кол-ву просмотров</option>
+                  <!--<option value="3" {% if xd_gallery_album_module.sb == 3 %}selected="selected"{% endif %}>Рейтингу</option>-->
+                  <option value="4" {% if xd_gallery_album_module.sb == 4 %}selected="selected"{% endif %}>По порядку</option>
+                  <option value="5" {% if xd_gallery_album_module.sb == 5 %}selected="selected"{% endif %}>По названию</option>
+                  <option value="6" {% if xd_gallery_album_module.sb == 6 %}selected="selected"{% endif %}>Рекомендуемые</option>
+                </select></td>
+              </tr>
+            </tbody>
+          </table>
+        </form>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript"><!--
+$('input[name=\'album\']').autocomplete({
+  'source': function(request, response) {
+    $.ajax({
+      url: 'index.php?route=xd_gallery/album/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+      dataType: 'json',     
+      success: function(json) {
+        response($.map(json, function(item) {
+          return {
+            label: item['name'],
+            value: item['album_id']
+          }
+        }));
+      }
+    });
+  },
+  'select': function(item) {
+    $('#featured-album' + item['value']).remove();
+    
+    $('#featured-album').append('<div id="featured-album' + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" value="' + item['value'] + '" /></div>'); 
+  
+    data = $.map($('#featured-album input'), function(element) {
+      return $(element).attr('value');
+    });
+            
+    $('input[name=\'xd_gallery_album_featured\']').attr('value', data.join()); 
+  } 
+});
+
+$('#featured-album').delegate('.fa-minus-circle', 'click', function() {
+  $(this).parent().remove();
+
+  data = $.map($('#featured-album input'), function(element) {
+    return $(element).attr('value');
+  });
+          
+  $('input[name=\'xd_gallery_album_featured\']').attr('value', data.join()); 
+});
+//--></script> 
+</div>
+{{ footer }}

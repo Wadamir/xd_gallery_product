@@ -1,0 +1,20 @@
+<h3>{{ heading_title }}</h3>
+<div class="row product-layout">
+  <div class="og-container">
+    {% for video in videos %}
+    <div class="{{ apr }} col-xs-12 og-vd-md" style="height:{{ m_height }}px;">
+      <div class="og-vd-md-{{ vs }}">
+        <a href="{{ video.href }}">
+          <img src="{{ video.thumb }}" title="{{ video.name }}" alt="{{ video.name }}"/>
+          <div class="play-button play-button-1" style="top:{{ play_btn_top }}px; left:{{ play_btn_left }}px;"></div>
+        </a>
+      </div>
+      <p>
+      <a href="{{ video.href }}" style="font-family: {{ title_font }} ; font-size: {{ title_size }}px; {% if og_title_font_weight %}{{ 'font-weight: bold;' }}{% endif %} ">
+      {{ video.name }}
+      </a>
+      </p>
+    </div>
+    {% endfor %}
+  </div>
+</div>
