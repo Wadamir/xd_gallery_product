@@ -14,6 +14,25 @@ class ControllerExtensionModuleXdGalleryAlbum extends Controller
         }
 
         $data['module'] = $module++;
+        $show_title = $this->config->has('og_show_title') ? (int)$this->config->get('og_show_title') : (isset($setting['show_title']) ? (int)$setting['show_title'] : 1);
+        $title_position = $this->config->has('og_title_position') ? (string)$this->config->get('og_title_position') : (isset($setting['title_position']) ? (string)$setting['title_position'] : 'top');
+        $show_media_title = $this->config->has('og_show_media_title') ? (int)$this->config->get('og_show_media_title') : (isset($setting['show_media_title']) ? (int)$setting['show_media_title'] : 0);
+        $media_title_position = $this->config->has('og_media_title_position') ? (string)$this->config->get('og_media_title_position') : (isset($setting['media_title_position']) ? (string)$setting['media_title_position'] : 'bottom');
+        $media_title_link = $this->config->has('og_media_title_link') ? (int)$this->config->get('og_media_title_link') : (isset($setting['media_title_link']) ? (int)$setting['media_title_link'] : 0);
+
+        if (!in_array($title_position, array('left', 'center', 'right'), true)) {
+            $title_position = 'center';
+        }
+
+        if (!in_array($media_title_position, array('left', 'center', 'right'), true)) {
+            $media_title_position = 'center';
+        }
+
+        $data['show_title'] = $show_title;
+        $data['title_position'] = $title_position;
+        $data['show_media_title'] = $show_media_title;
+        $data['media_title_position'] = $media_title_position;
+        $data['media_title_link'] = $media_title_link;
 
         if (file_exists('catalog/view/theme/' . $this->config->get('config_template') . '/stylesheet/xd_gallery.css')) {
             $this->document->addStyle('catalog/view/theme/' . $this->config->get('config_template') . '/stylesheet/xd_gallery.css');

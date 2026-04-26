@@ -1,4 +1,6 @@
-<h3>{{ heading_title }}</h3>
+{% if show_title %}
+<h3 style="text-align: {{ title_position }};">{{ heading_title }}</h3>
+{% endif %}
 <style type="text/css">
 	.og-container .og-album-thumb-frame {
 		width: {{ og_album_frame_width }}px;
@@ -11,17 +13,26 @@
 		top: {{ og_album_frame_padding }}px;
 		left: {{ og_album_frame_padding }}px;
 	}
+
+	.og-media-title {
+		margin: 8px 0 0;
+	}
 </style>
 <div class="row product-layout">
+    <div class="col-sm-12">
 	{% if og_album_carousel %}
 		<div class="og-container og-album-list-carousel">
 			{% for album in albums %}
 				<div class="og-album-row">
-					<p class="og-album-row-title">
-						<a href="{{ album.href }}" style="font-family:{{ title_font }}; font-size:{{ title_size }}px; {% if og_title_font_weight %} {{ 'font-weight: bold;' }} {% endif %}">
-							{{ album.name }}
-						</a>
-					</p>
+                    {% if show_media_title %}
+                        <p class="og-media-title">
+                            {% if media_title_link %}
+                                <a {% if og_album_magnific_popup and album.popup %}class="popup-pict" href="{{ album.popup }}"{% else %}href="{{ album.href }}"{% endif %} style="text-align: {{ media_title_position }}; display: block;">{{ album.name }}</a>
+                            {% else %}
+                                <span style="text-align: {{ media_title_position }}; display: block;">{{ album.name }}</span>
+                            {% endif %}
+                        </p>
+					{% endif %}
 					<div class="og-photo-carousel swiper-viewport">
 						<div id="xd-gallery-module-album-photos-{{ module }}-{{ loop.index }}" class="swiper-container">
 							<div class="swiper-wrapper">
@@ -128,14 +139,16 @@
 		<div class="og-container">
 			{% for album in albums %}
 				<div class="og-album {{ apr }} col-xs-12" style="height:{{ mheight }};">
+					{% if show_title %}
+						<p>
+							<a href="{{ album.href }}" style="font-family:{{ title_font }}; font-size:{{ title_size }}px; text-align: {{ title_position }}; display: block; {% if og_title_font_weight %} {{ 'font-weight: bold;' }} {% endif %}">
+								{{ album.name }}
+							</a>
+						</p>
+					{% endif %}
 					<div class="og-album-thumb-frame">
 						<a {% if og_album_magnific_popup and album.popup %}class="popup-pict" href="{{ album.popup }}"{% else %}href="{{ album.href }}"{% endif %}><img src="{{ album.thumb}}" title="{{ album.name }}" alt="{{ album.name }}"/></a>
 					</div>
-					<p>
-						<a href="{{ album.href }}" style="font-family:{{ title_font }}; font-size:{{ title_size }}px; {% if og_title_font_weight %} {{ 'font-weight: bold;' }} {% endif %}">
-							{{ album.name }}
-						</a>
-					</p>
 				</div>
 			{% endfor %}
 		</div>
@@ -153,4 +166,5 @@
 		//--></script>
 		{% endif %}
 	{% endif %}
+    </div>
 </div>

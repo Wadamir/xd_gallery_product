@@ -60,6 +60,11 @@
                 <td class="text-left">{{ entry_apr }}</td>
                 <td class="text-left">{{ entry_as }}</td>
                 <td class="text-left">{{ entry_sort_by }}</td>
+                <td class="text-left">{{ entry_show_title }}</td>
+                <td class="text-left">{{ entry_title_position }}</td>
+                <td class="text-left">{{ entry_show_media_title }}</td>
+                <td class="text-left">{{ entry_media_title_position }}</td>
+                <td class="text-left">{{ entry_media_title_link }}</td>
               </tr>
             </thead>
             <tbody>
@@ -89,6 +94,36 @@
                   <option value="5" {% if xd_gallery_album_module.sb == 5 %}selected="selected"{% endif %}>По названию</option>
                   <option value="6" {% if xd_gallery_album_module.sb == 6 %}selected="selected"{% endif %}>Рекомендуемые</option>
                 </select></td>
+                <td class="text-left">
+                  <select name="xd_gallery_album_module[show_title]" class="form-control">
+                    <option value="1" {% if xd_gallery_album_module.show_title == 1 %}selected="selected"{% endif %}>{{ text_enabled }}</option>
+                    <option value="0" {% if xd_gallery_album_module.show_title != 1 %}selected="selected"{% endif %}>{{ text_disabled }}</option>
+                  </select>
+                </td>
+                <td class="text-left">
+                  <select name="xd_gallery_album_module[title_position]" class="form-control">
+                    <option value="top" {% if xd_gallery_album_module.title_position == 'top' %}selected="selected"{% endif %}>{{ text_position_top }}</option>
+                    <option value="bottom" {% if xd_gallery_album_module.title_position == 'bottom' %}selected="selected"{% endif %}>{{ text_position_bottom }}</option>
+                  </select>
+                </td>
+                <td class="text-left">
+                  <select name="xd_gallery_album_module[show_media_title]" class="form-control">
+                    <option value="1" {% if xd_gallery_album_module.show_media_title == 1 %}selected="selected"{% endif %}>{{ text_enabled }}</option>
+                    <option value="0" {% if xd_gallery_album_module.show_media_title != 1 %}selected="selected"{% endif %}>{{ text_disabled }}</option>
+                  </select>
+                </td>
+                <td class="text-left">
+                  <select name="xd_gallery_album_module[media_title_position]" class="form-control">
+                    <option value="top" {% if xd_gallery_album_module.media_title_position == 'top' %}selected="selected"{% endif %}>{{ text_position_top }}</option>
+                    <option value="bottom" {% if xd_gallery_album_module.media_title_position == 'bottom' %}selected="selected"{% endif %}>{{ text_position_bottom }}</option>
+                  </select>
+                </td>
+                <td class="text-left">
+                  <select name="xd_gallery_album_module[media_title_link]" class="form-control">
+                    <option value="1" {% if xd_gallery_album_module.media_title_link == 1 %}selected="selected"{% endif %}>{{ text_enabled }}</option>
+                    <option value="0" {% if xd_gallery_album_module.media_title_link != 1 %}selected="selected"{% endif %}>{{ text_disabled }}</option>
+                  </select>
+                </td>
               </tr>
             </tbody>
           </table>

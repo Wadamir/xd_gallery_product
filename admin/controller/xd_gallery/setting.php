@@ -138,6 +138,46 @@ class ControllerXdGallerySetting extends Controller
             $data['og_title_font_weight'] = $this->config->get('og_title_font_weight');
         }
 
+        if (isset($this->request->post['og_show_title'])) {
+            $data['og_show_title'] = $this->request->post['og_show_title'];
+        } elseif ($this->config->has('og_show_title')) {
+            $data['og_show_title'] = $this->config->get('og_show_title');
+        } else {
+            $data['og_show_title'] = '1';
+        }
+
+        if (isset($this->request->post['og_title_position'])) {
+            $data['og_title_position'] = $this->request->post['og_title_position'];
+        } elseif ($this->config->has('og_title_position')) {
+            $data['og_title_position'] = $this->config->get('og_title_position');
+        } else {
+            $data['og_title_position'] = 'center';
+        }
+
+        if (isset($this->request->post['og_show_media_title'])) {
+            $data['og_show_media_title'] = $this->request->post['og_show_media_title'];
+        } elseif ($this->config->has('og_show_media_title')) {
+            $data['og_show_media_title'] = $this->config->get('og_show_media_title');
+        } else {
+            $data['og_show_media_title'] = '0';
+        }
+
+        if (isset($this->request->post['og_media_title_position'])) {
+            $data['og_media_title_position'] = $this->request->post['og_media_title_position'];
+        } elseif ($this->config->has('og_media_title_position')) {
+            $data['og_media_title_position'] = $this->config->get('og_media_title_position');
+        } else {
+            $data['og_media_title_position'] = 'center';
+        }
+
+        if (isset($this->request->post['og_media_title_link'])) {
+            $data['og_media_title_link'] = $this->request->post['og_media_title_link'];
+        } elseif ($this->config->has('og_media_title_link')) {
+            $data['og_media_title_link'] = $this->config->get('og_media_title_link');
+        } else {
+            $data['og_media_title_link'] = '0';
+        }
+
         if (isset($this->request->post['og_album_menu'])) {
             $data['og_album_menu'] = $this->request->post['og_album_menu'];
         } elseif ($this->config->get('og_album_menu')) {

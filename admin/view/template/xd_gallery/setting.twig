@@ -67,6 +67,26 @@
 									</select>
 								</div>
 							</div>
+                            <hr />
+							<div class="form-group">
+								<label class="col-sm-2 control-label" for="input-show-title">Показывать заголовок:</label>
+								<div class="col-sm-10">
+									<select name="og_show_title" id="input-show-title" class="form-control">
+										<option value="0" {% if og_show_title == 0 %} {{ ' selected="selected"' }} {% endif %}>Нет</option>
+										<option value="1" {% if og_show_title == 1 %} {{ ' selected="selected"' }} {% endif %}>Да</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label" for="input-title-position">Положение заголовка:</label>
+								<div class="col-sm-10">
+									<select name="og_title_position" id="input-title-position" class="form-control">
+										<option value="left" {% if og_title_position == 'left' %} {{ ' selected="selected"' }} {% endif %}>Слева</option>
+										<option value="center" {% if og_title_position == 'center' %} {{ ' selected="selected"' }} {% endif %}>По центру</option>
+										<option value="right" {% if og_title_position == 'right' %} {{ ' selected="selected"' }} {% endif %}>Справа</option>
+									</select>
+								</div>
+							</div>                              
 							<div class="form-group">
 								<label class="col-sm-2 control-label" for="input-heading-title-font">Шрифт заголовка:</label>
 								<div class="col-sm-10">
@@ -120,6 +140,35 @@
 									</select>
 								</div>
 							</div>
+                            <hr />                          
+							<div class="form-group">
+								<label class="col-sm-2 control-label" for="input-show-media-title">Показывать заголовок фото/видео:</label>
+								<div class="col-sm-10">
+									<select name="og_show_media_title" id="input-show-media-title" class="form-control">
+										<option value="0" {% if og_show_media_title == 0 %} {{ ' selected="selected"' }} {% endif %}>Нет</option>
+										<option value="1" {% if og_show_media_title == 1 %} {{ ' selected="selected"' }} {% endif %}>Да</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label" for="input-media-title-position">Положение заголовка фото/видео:</label>
+								<div class="col-sm-10">
+									<select name="og_media_title_position" id="input-media-title-position" class="form-control">
+										<option value="left" {% if og_media_title_position == 'left' %} {{ ' selected="selected"' }} {% endif %}>Слева</option>
+										<option value="center" {% if og_media_title_position == 'center' %} {{ ' selected="selected"' }} {% endif %}>По центру</option>
+										<option value="right" {% if og_media_title_position == 'right' %} {{ ' selected="selected"' }} {% endif %}>Справа</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label" for="input-media-title-link">Выводить заголовок фото/видео в виде ссылки:</label>
+								<div class="col-sm-10">
+									<select name="og_media_title_link" id="input-media-title-link" class="form-control">
+										<option value="0" {% if og_media_title_link == 0 %} {{ ' selected="selected"' }} {% endif %}>Нет</option>
+										<option value="1" {% if og_media_title_link == 1 %} {{ ' selected="selected"' }} {% endif %}>Да</option>
+									</select>
+								</div>
+							</div>                            
 							<div class="form-group">
 								<label class="col-sm-2 control-label" for="input-album-video-title-font">Шрифт заголовка фото/видео:</label>
 								<div class="col-sm-10">
@@ -191,7 +240,6 @@
 											Нормальное
 										{% endif %}
 									</label>
-
 								</div>
 							</div>
 						</div>

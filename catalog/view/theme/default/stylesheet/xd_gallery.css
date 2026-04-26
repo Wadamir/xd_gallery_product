@@ -477,7 +477,7 @@
 .popup-pict{
 	display: block;
 	text-align: center;
-	margin-bottom: 30px;
+	/* margin-bottom: 30px; */
 	-webkit-box-shadow: 7px 10px 19px -8px rgba(0,0,0,0.75);
 	-moz-box-shadow: 7px 10px 19px -8px rgba(0,0,0,0.75);
 	box-shadow: 7px 10px 19px -8px rgba(0,0,0,0.75);

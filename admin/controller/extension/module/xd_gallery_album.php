@@ -101,15 +101,30 @@ class ControllerExtensionModuleXdGalleryAlbum extends Controller
         } elseif ($this->config->has('xd_gallery_album_module')) {
             $module = $this->config->get('xd_gallery_album_module');
         } else {
-            $module = array('limit' => '3', 'apr' => '3', 'as' => '1', 'sb' => '1');
+            $module = array(
+                'limit' => '3',
+                'apr' => '3',
+                'as' => '1',
+                'sb' => '1',
+                'show_title' => '1',
+                'title_position' => 'top',
+                'show_media_title' => '0',
+                'media_title_position' => 'bottom',
+                'media_title_link' => '0'
+            );
         }
 
 
         $data['xd_gallery_album_module'] = array(
-            'limit'  => $module['limit'],
-            'apr'    => $module['apr'],
-            'as'    => $module['as'],
-            'sb'    => $module['sb'],
+            'limit'  => isset($module['limit']) ? $module['limit'] : '3',
+            'apr'    => isset($module['apr']) ? $module['apr'] : '3',
+            'as'     => isset($module['as']) ? $module['as'] : '1',
+            'sb'     => isset($module['sb']) ? $module['sb'] : '1',
+            'show_title' => isset($module['show_title']) ? $module['show_title'] : '1',
+            'title_position' => isset($module['title_position']) ? $module['title_position'] : 'top',
+            'show_media_title' => isset($module['show_media_title']) ? $module['show_media_title'] : '0',
+            'media_title_position' => isset($module['media_title_position']) ? $module['media_title_position'] : 'bottom',
+            'media_title_link' => isset($module['media_title_link']) ? $module['media_title_link'] : '0',
         );
 
         $data['header'] = $this->load->controller('common/header');
