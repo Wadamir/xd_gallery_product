@@ -58,6 +58,14 @@ class ModelXdGalleryImage extends Model
         ");
 
         $this->db->query("
+                        CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "xd_gallery_album_to_product` (
+                            `album_id` int(11) NOT NULL,
+                            `product_id` int(11) NOT NULL,
+                            PRIMARY KEY (`album_id`,`product_id`)
+                        ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+                ");
+
+        $this->db->query("
 			CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "xd_gallery_image` (
 			  `image_id` int(11) NOT NULL AUTO_INCREMENT,
 			  `album_id` int(11) NOT NULL,
@@ -210,6 +218,12 @@ class ModelXdGalleryImage extends Model
             }
         }
 
+        if (isset($data['album_product'])) {
+            foreach ($data['album_product'] as $product_id) {
+                $this->db->query("INSERT INTO " . DB_PREFIX . "xd_gallery_album_to_product SET album_id = '" . (int)$album_id . "', product_id = '" . (int)$product_id . "'");
+            }
+        }
+
         if (isset($data['album_image'])) {
             foreach ($data['album_image'] as $album_image) {
                 $this->db->query("INSERT INTO " . DB_PREFIX . "xd_gallery_image SET name = '" . $this->db->escape($album_image['name']) . "' , album_id = '" . (int)$album_id . "', image = '" . $this->db->escape($album_image['image']) . "', sort_order = '" . (int)$album_image['sort_order'] . "'");
@@ -263,6 +277,14 @@ class ModelXdGalleryImage extends Model
             }
         }
 
+        $this->db->query("DELETE FROM " . DB_PREFIX . "xd_gallery_album_to_product WHERE album_id = '" . (int)$album_id . "'");
+
+        if (isset($data['album_product'])) {
+            foreach ($data['album_product'] as $product_id) {
+                $this->db->query("INSERT INTO " . DB_PREFIX . "xd_gallery_album_to_product SET album_id = '" . (int)$album_id . "', product_id = '" . (int)$product_id . "'");
+            }
+        }
+
         $this->db->query("DELETE FROM " . DB_PREFIX . "xd_gallery_image WHERE album_id = '" . (int)$album_id . "'");
 
         if (isset($data['album_image'])) {
@@ -296,6 +318,7 @@ class ModelXdGalleryImage extends Model
         $this->db->query("DELETE FROM " . DB_PREFIX . "xd_gallery_album_description WHERE album_id = '" . (int)$album_id . "'");
         $this->db->query("DELETE FROM " . DB_PREFIX . "xd_gallery_album_to_store WHERE album_id = '" . (int)$album_id . "'");
         $this->db->query("DELETE FROM " . DB_PREFIX . "xd_gallery_album_to_category WHERE album_id = '" . (int)$album_id . "'");
+        $this->db->query("DELETE FROM " . DB_PREFIX . "xd_gallery_album_to_product WHERE album_id = '" . (int)$album_id . "'");
         $this->db->query("DELETE FROM " . DB_PREFIX . "xd_gallery_image WHERE album_id = '" . (int)$album_id . "'");
         $this->db->query("DELETE FROM " . DB_PREFIX . "seo_url WHERE query = 'album_id=" . (int)$album_id . "'");
 
@@ -351,6 +374,21 @@ class ModelXdGalleryImage extends Model
         }
 
         return $album_category_data;
+    }
+
+    public function getAlbumProducts($album_id)
+    {
+        $this->ensureSchema();
+
+        $album_product_data = array();
+
+        $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "xd_gallery_album_to_product WHERE album_id = '" . (int)$album_id . "'");
+
+        foreach ($query->rows as $result) {
+            $album_product_data[] = $result['product_id'];
+        }
+
+        return $album_product_data;
     }
 
     public function getImageAlbum($album_id)

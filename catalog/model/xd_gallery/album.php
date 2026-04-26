@@ -1,6 +1,27 @@
 <?php
 class ModelXdGalleryAlbum extends Model
 {
+    public function getAlbumProducts($album_id)
+    {
+        $table_name = DB_PREFIX . 'xd_gallery_album_to_product';
+
+        $table_query = $this->db->query("SHOW TABLES LIKE '" . $this->db->escape($table_name) . "'");
+
+        if (!$table_query->num_rows) {
+            return array();
+        }
+
+        $album_product_data = array();
+
+        $query = $this->db->query("SELECT product_id FROM " . DB_PREFIX . "xd_gallery_album_to_product WHERE album_id = '" . (int)$album_id . "'");
+
+        foreach ($query->rows as $result) {
+            $album_product_data[] = (int)$result['product_id'];
+        }
+
+        return $album_product_data;
+    }
+
     public function getAlbumCategories($album_id)
     {
         $table_name = DB_PREFIX . 'xd_gallery_album_to_category';

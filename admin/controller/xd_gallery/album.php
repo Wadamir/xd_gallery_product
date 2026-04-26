@@ -239,6 +239,7 @@ class ControllerXdGalleryAlbum extends Controller
         $data['entry_meta_description'] = $this->language->get('entry_meta_description');
         $data['entry_meta_keyword'] = $this->language->get('entry_meta_keyword');
         $data['entry_store'] = $this->language->get('entry_store');
+        $data['entry_product'] = $this->language->get('entry_product');
         $data['entry_image'] = $this->language->get('entry_image');
         $data['entry_sort_order'] = $this->language->get('entry_sort_order');
         $data['entry_status'] = $this->language->get('entry_status');
@@ -327,6 +328,7 @@ class ControllerXdGalleryAlbum extends Controller
         }
 
         $this->load->model('catalog/category');
+        $this->load->model('catalog/product');
 
         if (isset($this->request->post['album_category'])) {
             $data['album_category'] = $this->request->post['album_category'];
@@ -345,6 +347,27 @@ class ControllerXdGalleryAlbum extends Controller
                 $data['album_categories'][] = array(
                     'category_id' => $category_info['category_id'],
                     'name'        => ($category_info['name'])
+                );
+            }
+        }
+
+        if (isset($this->request->post['album_product'])) {
+            $data['album_product'] = $this->request->post['album_product'];
+        } elseif (isset($this->request->get['album_id'])) {
+            $data['album_product'] = $this->model_xd_gallery_image->getAlbumProducts($this->request->get['album_id']);
+        } else {
+            $data['album_product'] = array();
+        }
+
+        $data['album_products'] = array();
+
+        foreach ($data['album_product'] as $product_id) {
+            $product_info = $this->model_catalog_product->getProduct($product_id);
+
+            if ($product_info) {
+                $data['album_products'][] = array(
+                    'product_id' => $product_info['product_id'],
+                    'name'       => $product_info['name']
                 );
             }
         }

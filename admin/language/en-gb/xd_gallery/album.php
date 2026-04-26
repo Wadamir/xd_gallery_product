@@ -26,6 +26,7 @@ $_['entry_description']      = 'Description:';
 $_['entry_meta_description'] = 'Meta Description:';
 $_['entry_meta_keyword']     = 'Meta Keyword:';
 $_['entry_store']            = 'Stores:';
+$_['entry_product']           = 'Показывать в товарах:';
 $_['entry_category_product']  = 'Выводить в товарах, принадлежащих категориям:';
 $_['entry_image']            = 'Image:';
 $_['entry_sort_order']       = 'Sort Order:';

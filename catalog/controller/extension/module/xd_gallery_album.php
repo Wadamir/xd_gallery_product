@@ -103,10 +103,12 @@ class ControllerExtensionModuleXdGalleryAlbum extends Controller
 
         $this->load->model('tool/image');
 
+        $current_product_id = 0;
         $current_product_category_ids = array();
 
         if (isset($this->request->get['product_id'])) {
-            $product_categories = $this->model_catalog_product->getCategories((int)$this->request->get['product_id']);
+            $current_product_id = (int)$this->request->get['product_id'];
+            $product_categories = $this->model_catalog_product->getCategories($current_product_id);
 
             foreach ($product_categories as $product_category) {
                 $current_product_category_ids[] = (int)$product_category['category_id'];
@@ -199,10 +201,14 @@ class ControllerExtensionModuleXdGalleryAlbum extends Controller
                 $album_info = $this->model_xd_gallery_album->getAlbum($album_id);
 
                 if ($album_info) {
+                    $album_product_ids = $this->model_xd_gallery_album->getAlbumProducts($album_info['album_id']);
                     $album_category_ids = $this->model_xd_gallery_album->getAlbumCategories($album_info['album_id']);
 
-                    if ($album_category_ids) {
-                        if (!$current_product_category_ids || !array_intersect($album_category_ids, $current_product_category_ids)) {
+                    if ($album_product_ids || $album_category_ids) {
+                        $matches_product = $current_product_id && in_array($current_product_id, $album_product_ids);
+                        $matches_category = $album_category_ids && $current_product_category_ids && array_intersect($album_category_ids, $current_product_category_ids);
+
+                        if (!$matches_product && !$matches_category) {
                             continue;
                         }
                     }
@@ -275,10 +281,14 @@ class ControllerExtensionModuleXdGalleryAlbum extends Controller
             $results = $this->model_xd_gallery_album->getAlbums($data_album);
 
             foreach ($results as $result) {
+                $album_product_ids = $this->model_xd_gallery_album->getAlbumProducts($result['album_id']);
                 $album_category_ids = $this->model_xd_gallery_album->getAlbumCategories($result['album_id']);
 
-                if ($album_category_ids) {
-                    if (!$current_product_category_ids || !array_intersect($album_category_ids, $current_product_category_ids)) {
+                if ($album_product_ids || $album_category_ids) {
+                    $matches_product = $current_product_id && in_array($current_product_id, $album_product_ids);
+                    $matches_category = $album_category_ids && $current_product_category_ids && array_intersect($album_category_ids, $current_product_category_ids);
+
+                    if (!$matches_product && !$matches_category) {
                         continue;
                     }
                 }
